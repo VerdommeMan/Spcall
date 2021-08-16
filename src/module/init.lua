@@ -17,7 +17,7 @@ local Module = {}
 
 -- Behaves like spawn, identical API, and benefits of task lib (continuations, stacktraces), resumes within the same frame
 
-function Module.spawn(funcThread, ...)
+function Module.spawn(funcThread: (...any) -> () | thread, ...)
 	task.defer(funcThread, ...) -- order 1, func gets called at order 3
 	task.wait() -- order 2, suspends the current thread to prevent time out error from cascading into other threads
 end
@@ -34,7 +34,7 @@ local ThreadScheduler = setmetatable({}, {__newindex = task.delay})
 -- doesnt print anything in the console, one note though, since im unable to use table.pack
 -- I wasnt able to preserve holes when returning from it, so you will have to return the amount of args incase that behaviour is wanted
 
-function Module.pcall(func, ...)
+function Module.pcall(func: (any) -> (), ...): (boolean, ...any)
 	local curThread = coroutine.running()
 	task.defer(function(...)
 		ThreadScheduler[curThread] = {pcall(func, ...)} -- Absolute amazing piece of magic happening right here
