@@ -3,12 +3,12 @@
 
 -- This module aims to solve the issue with the behaviour of the timeout error.
 -- When the timeout error is generated, it will cascade the error into any related thread.
--- In other words, the timeout error indirectly propegates
+-- In other words, the timeout error indirectly propagates
 -- This is due to to fact when the error is generated, the budget has been consumed
 -- but it does not reset the budget after it has been catched, 
 -- thus any code that tries to call, even code that attemps to yield, will raise that error too.
 -- But I found out, that it wont cascade the error into threads that are suspended.
--- So what this module does in essence is wrap the original thread in a suspended thread.
+-- So what this module essentially does, is wrap the original thread in a suspended thread.
 -- It doesn't look like much but it took me a long time to create this
 -- It works in both SignalBehaviors (Deffered and Immediate) and supports continuations
 -- It was a painful 20 hours in which I was slowly becoming insane but I did it :D
