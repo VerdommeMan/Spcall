@@ -13,7 +13,7 @@ This is due to to fact when the error is generated, the budget has been consumed
 Thus any code that tries to call, even code that attemps to yield, will raise that error too.
 But I found out, that it won't cascade the error into threads that are suspended.
 So what this module essestially does, is wrap the original thread in a suspended thread.
-Basically this module makes sure the timeout error will behave like any other error.
+So this module makes sure the timeout error will behave like any other error.
 
 
 ## Example of the issue with the timeout error
@@ -60,9 +60,8 @@ In most cases, the default behaviour of timeout is not that bad, it fails fast. 
 
 An even more niche use case, is when the during the cascading of the error it generates that many errors and stacktraces that the root stacktrace (the code that actually caused it) is no longer accessible.
 
-an example of this happening to me
+[An example of this happening to me (link to gif)](https://imgur.com/a/VEd4Pkd)
 
-![gif output (click here when it doesn't show)](https://imgur.com/a/VEd4Pkd)
 In the gif you can see it only shows a portion of the 2000 errors that it had raised.
 
 ### A more concrete use case
