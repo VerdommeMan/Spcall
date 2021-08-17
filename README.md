@@ -80,7 +80,7 @@ You can but there is no point.
 
 ## Download
 - [from the release page](https://github.com/VerdommeMan/Spcall/releases)
-- [link to roblox asset page]()
+- [link to roblox asset page](https://www.roblox.com/library/7271228051/Spcall-prevent-propagation-of-the-timeout-error)
 - or you can build it from [src](/src) using rojo
   
 ## Code examples
