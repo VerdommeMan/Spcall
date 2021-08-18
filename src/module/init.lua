@@ -1,5 +1,5 @@
 -- @Author: VerdommeMan, see https://github.com/VerdommeMan/Spcall for more information 
--- @Version: 1.0.0
+-- @Version: 1.1.0
 
 -- This module aims to solve the issue with the behaviour of the timeout error.
 -- When the timeout error is generated, it will cascade the error into any related thread.
@@ -40,6 +40,22 @@ function Module.pcall(func: (any) -> (), ...): (boolean, ...any)
 		ThreadScheduler[curThread] = {pcall(func, ...)} -- Absolute amazing piece of magic happening right here
 	end, ...)
 	return unpack(coroutine.yield())
+end
+
+
+-- Not similar to an existing function, exists bc coroutine.resume doesnt support continuations
+-- When it doesn't error its behaviour is the same as pcall, when it does it returns success and a stacktrace containing the msg
+-- Basically before this, I was using coroutine.resume to create create stacktraces from threads that have errored but since 
+-- coroutine.resume doesnt catch errors when you yield in it (bc of continuations), it didnt work
+-- Discovered that xpcall gives you one free call that doesn't trigger the timeout error, using it to generate a stacktrace
+-- Luckily it also outputs the msg it was giving as param. 
+
+function Module.tpcall(func: (any) -> (), ...) : (boolean, ...any)
+	local curThread = coroutine.running()
+	task.defer(function(...)
+		ThreadScheduler[curThread] = {xpcall(func, debug.traceback, ...)}
+	end, ...)
+	return unpack(coroutine.yield())	
 end
 
 return Module
