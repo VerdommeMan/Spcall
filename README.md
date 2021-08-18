@@ -10,7 +10,7 @@ This module aims to solve an issue with the behaviour of the timeout error.
 When the timeout error is generated, it will cascade the error into any related thread.
 In other words, the timeout error indirectly propagates.
 This is due to to fact when the error is generated, the budget has been consumed but it does not reset the budget after it has been catched.
-Thus any code that tries to call, even code that attemps to yield, will raise that error too.
+Thus any code that tries to call, even code that attempts to yield, will raise that error too.
 But I found out, that it won't cascade the error into threads that are suspended.
 So what this module essestially does, is wrap the original thread in a suspended thread.
 So this module makes sure the timeout error will behave like any other error.
@@ -32,7 +32,7 @@ task.spawn(function()
 	end))
 	print("Even this will error")
 end)
-print("As you can see it indirectly propegates the timeout error")
+print("As you can see it indirectly propagates the timeout error")
 ```
 ![output](https://i.imgur.com/xfnHdVa.png)
 
@@ -72,7 +72,7 @@ In the gif you can see it only shows a portion of the 2000 errors that it had ra
 For one of my other modules people write benchmarks -> one errors with the timeout error -> it cascades through out my whole module -> whole module unresponsive -> not debuggable in the slighest, because you get 2k errors (see gif above) -> module completely unreponsive -> unable to do the other benchmarks/profiling -> can't even close/mimize the gui.
 
 #### Now with it:
-People write benchmarks -> one errors with the timeout error -> catched -> doesnt propegate -> handle error -> e.g. visual status informing benchmark X, errored, prints the error and the stack trace (1 error not 2k errors) -> other benchmarks/profiling keep running -> add hints how to fix the error -> benchmarker keeps being completely useable -> also doesn't take 10 minutes for studio to become responsive again
+People write benchmarks -> one errors with the timeout error -> catched -> doesnt propagate -> handle error -> e.g. visual status informing benchmark X, errored, prints the error and the stack trace (1 error not 2k errors) -> other benchmarks/profiling keep running -> add hints how to fix the error -> benchmarker keeps being completely useable -> also doesn't take 10 minutes for studio to become responsive again
 
 ## Disclaimer
 
@@ -105,7 +105,7 @@ task.spawn(function()
 	end))
 	print("Even this will error")
 end)
-print("As you can see it indirectly propegates the timeout error")
+print("As you can see it indirectly propagates the timeout error")
 ```
 And now it will print all those prints
 ![image of output](https://i.imgur.com/qWDkVdi.png)
@@ -121,14 +121,14 @@ end)
 print("This will print")
 ```
 
-and the output, as you can see it prints the stacktrace but it doesnt propegate the error
+and the output, as you can see it prints the stacktrace but it doesnt propagate the error
 ![output code above](https://i.imgur.com/lEMTfvO.png)
 
 
 ## API
-The module offers two replacements: one for pcall and one for task.spawn
+The module offers two replacements: one for pcall and one for task.spawn.
 
-The have an identical API
+They have an identical API.
 
 ### Functions
 
