@@ -52,6 +52,7 @@ print("As you can see it indirectly propegates the timeout error")
 	- [Functions](#functions)
 		- [`void` module.spawn(funcThread: func | thread, ...: any)](#void-modulespawnfuncthread-func--thread--any)
 		- [`(bool, str | any, ...any)` module.pcall(func: func, ...: any)](#bool-str--any-any-modulepcallfunc-func--any)
+		- [`(bool, str | any, ...any)` module.tpcall(func: func, ...: any)](#bool-str--any-any-moduletpcallfunc-func--any)
 - [Other](#other)
 
 ## Use case
@@ -142,6 +143,11 @@ Behaves almost exactly like `pcall`, but doesn't propagate the timeout error.
 Few caveats though:
 - Since I was unable to use `table.pack`, I wasn't able to preserve holes when returning from pcall, so when that behaviour is wanted I suggest you pack the tuple before you return it.
 - As you can see from the code example for `module.pcall`, the order of the print statements isn't exactly the same as it would ve been with pcall. This is due to fact that I can't resume the the thread immediately because the budget has't been reset yet. Instead it resumes it on the next step.
+
+#### `(bool, str | any, ...any)` module.tpcall(func: func, ...: any)
+
+When it doesn't catch an error it behaves the exactly same as `module.pcall` including the caveats. When it does error instead it returns a stacktrace with the error msg. This exists because originaly I was using `coroutine.resume` to recreate stacktraces when it had errored. But `coroutine.resume` doesn't catch errors when you yield within it because it doesn't support continuations. So this is a solution towards that.
+
 
 ## Other
 - It works in Deffered and supports continuations.
